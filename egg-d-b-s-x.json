@@ -1,0 +1,82 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2024-05-23T23:30:29+00:00",
+    "name": "DBSX",
+    "author": "mac.g@plutonode.com",
+    "description": "BDSX with Node.js",
+    "features": null,
+    "docker_images": {
+        "BDSX": "weissnix\/bdsx-pterodactyl:alpine"
+    },
+    "file_denylist": [],
+    "startup": "\/home\/container\/bdsx\/bdsx.sh",
+    "config": {
+        "files": "{\r\n    \"bdsx\/bedrock_server\/server.properties\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"server-port\": \"{{server.build.default.port}}\",\r\n            \"server-name\": \"{{server.build.env.SERVER_NAME}}\",\r\n            \"gamemode\": \"{{server.build.env.GAMEMODE}}\",\r\n            \"difficulty\": \"{{server.build.env.DIFFICULTY}}\",\r\n            \"allow-cheats\": \"{{server.build.env.CHEATS}}\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \"Server started\"\r\n}",
+        "logs": "{}",
+        "stop": "stop"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n\r\napk add --no-cache --update \\\r\n    git npm\r\n\r\nif [ ! -d \/mnt\/server ]; then\r\n    mkdir \/mnt\/server\r\nfi\r\ncd \/mnt\/server\r\n\r\nif [ ! -d bdsx ]; then\r\n   git clone https:\/\/github.com\/bdsx\/bdsx.git\r\nfi\r\n\r\ncd bdsx\r\ngit pull --ff-only\r\n.\/update.sh",
+            "container": "alpine:3.4",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Gamemode",
+            "description": "MineCraft Gamemode",
+            "env_variable": "GAMEMODE",
+            "default_value": "survival",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20",
+            "field_type": "text"
+        },
+        {
+            "name": "Cheats",
+            "description": "Should cheats be enabled?",
+            "env_variable": "CHEATS",
+            "default_value": "true",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20",
+            "field_type": "text"
+        },
+        {
+            "name": "Server Difficulty",
+            "description": "MineCraft Difficulty",
+            "env_variable": "DIFFICULTY",
+            "default_value": "easy",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20",
+            "field_type": "text"
+        },
+        {
+            "name": "Server MOTD \/ Name",
+            "description": "Name of the server \/ MOTD",
+            "env_variable": "SERVER_NAME",
+            "default_value": "BDSX",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:40",
+            "field_type": "text"
+        },
+        {
+            "name": "Terms",
+            "description": "Do you agree to the Minecraft End User License Agreement and Privacy Policy? (https:\/\/account.mojang.com\/terms and https:\/\/go.microsoft.com\/fwlink\/?LinkId=521839)",
+            "env_variable": "BDSX_YES",
+            "default_value": "true",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|string|max:20",
+            "field_type": "text"
+        }
+    ]
+}
